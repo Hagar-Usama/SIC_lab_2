@@ -3,13 +3,13 @@
          START   1000
          JSUB    READ
          JSUB    WRITE
+.        JSUB    ENDFIL
          J       *
 .
-.SUBROUTINE FOR READING FROM DEV F3
+.sUBROUTINE FOR READING FROM DEV F3
 .
 READ     CLEAR   X
          CLEAR   A
-         LDT     #1
 LPR      TD      DEVF3
          JEQ     LPR
          RD      DEVF3
@@ -32,22 +32,22 @@ WRITE    CLEAR   A
          LDT     #1
          LDS     #0
          SUBR    T,X
-LOOP     TD      OUTDEV
+LOOP     TD      DEV05
          JEQ     LOOP
          LDCH    DATA,X
-         WD      OUTDEV
+         WD      DEV05
          SUBR    T,X
          COMPR   X,S
          JGT     LOOP
          JEQ     LOOP         
          RSUB
 .
-ENDFIL   CLEAR   A
-LOOP2    TD      OUTDEV
-         JEQ     LOOP2
-         LDCH    #4
-         WD      OUTDEV
-         RSUB
+.ENDFIL   CLEAR   A
+.LOOP2    TD      DEV05
+.         JEQ     LOOP2
+.         LDCH    #4
+.         WD      DEV05
+.         RSUB
 .
-OUTDEV   BYTE    X'05'
+DEV05    BYTE    X'05'
          END
