@@ -1,0 +1,28 @@
+.23456789012345678
+BGN      START   1000
+         CLEAR   A
+         LDCH    TARGET
+         RMO     A,T
+         JSUB    SRCH
+         J       *
+.
+SRCH     LDX     #0
+LOOP     LDA     #0
+         LDCH    ARR,X
+         COMP    #4
+         JEQ     EXIT
+         COMPR   A,T
+         LDA     #ARR
+         ADDR    X,A
+         JEQ     ESUB         
+         TIX     MAX
+         JLT     LOOP
+EXIT     LDA     NOTFND
+ESUB     RSUB
+.
+MAX      WORD    100
+TARGET   BYTE    C'Z'
+ARR      BYTE    C'ABCDEFG'
+EOF      BYTE    X'04'
+NOTFND   BYTE    X'FFFFFF'
+         END     BGN

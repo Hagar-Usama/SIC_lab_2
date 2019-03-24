@@ -1,0 +1,47 @@
+.23456789012345678
+.LABEL...opcode..OPERAND
+BGN      START   1000
+         JSUB    UPPER
+         JSUB    WRITE
+.        JSUB    ENDFIL
+         J       *
+.
+UPPER    LDX     #0
+         LDA     #0
+LOOP1    TD      DEVF3
+         JEQ     LOOP1
+         RD      DEVF3
+         COMP    #4
+         JEQ     EXIT
+         SUB     #32
+         STCH    DATA,X
+         TIX     MAX
+         JLT     LOOP1
+EXIT     STX     LENGTH
+         RSUB
+LENGTH   RESW    1
+MAX      WORD    15
+DATA     RESW    100
+DEVF3    BYTE    X'F3'
+.
+. WRITE SUBROUTINE TO WRITE INTO DEVICE
+.
+WRITE    CLEAR   A
+         CLEAR   X
+LOOP2    TD      DEV05
+         JEQ     LOOP2
+         LDCH    DATA,X
+         WD      DEV05
+         TIX     LENGTH
+         JLT     LOOP2
+         RSUB
+.
+.ENDFIL   CLEAR   A
+.LOOP3    TD      DEV05
+.         JEQ     LOOP3
+.         LDCH    #4
+.         WD      DEV05
+.         RSUB
+.
+DEV05    BYTE    X'05'
+         END     BGN

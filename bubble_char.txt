@@ -1,0 +1,51 @@
+.23456789012345678
+.LABEL...opcode..OPERAND
+         START   1000
+         LDT     #0
+         LDA     #0
+         LDS     #0
+OUTLP    LDX     #0
+         LDA     #ARR
+         STA     P1
+         ADD     INC
+         STA     P2
+LOOP     CLEAR   A
+         LDCH    @P1
+         RMO     A,T
+         LDCH    @P2
+         COMPR   T,A
+         JEQ     NOSWP
+         JLT     NOSWP
+         JSUB    SWAP
+NOSWP    LDA     N
+         SUBR    S,A
+         STA     M
+         LDA     P1
+         ADD     INC
+         STA     P1
+         ADD     INC
+         STA     P2
+         TIX     M
+ENDNLP   JLT     LOOP
+         LDA     #1
+         ADDR    A,S
+         LDA     N
+         COMPR   S,A
+         JLT     OUTLP
+EXIT     J       *
+.
+SWAP     LDCH    @P1
+         STCH    TEMP
+         LDCH    @P2
+         STCH    @P1
+         LDCH    TEMP
+         STCH    @P2
+         RSUB
+P1       RESW    1
+P2       RESW    1
+TEMP     RESW    1
+INC      WORD    1
+M        RESW    1
+N        WORD    7
+ARR      byte    c'QUIZz'
+         END

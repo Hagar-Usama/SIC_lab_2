@@ -1,0 +1,54 @@
+.23456789012345678
+.LABEL...OPCODE..OPERAND
+         START   1000
+         JSUB    READ
+         JSUB    WRITE
+         JSUB    ENDFIL
+         J       *
+.
+.sUBROUTINE FOR READING FROM DEV F3
+.
+READ     CLEAR   X
+         CLEAR   A
+         LDT     #1
+LPR      TD      DEVF3
+         JEQ     LPR
+         RD      DEVF3
+         COMP    #04
+         JEQ     EXIT
+         STCH    DATA,X
+         TIX     MAX
+         JLT     LPR
+EXIT     STX     LENGTH
+         RSUB
+.
+DEVF3    BYTE    X'F3'
+LENGTH   RESW    1
+MAX      WORD    100
+DATA     RESB    100
+.
+.SUBROUTINE FOR WRITING INTO DEV
+.
+WRITE    CLEAR   A
+         LDT     #1
+         LDS     #0
+         SUBR    T,X
+LOOP     TD      OUTDEV
+         JEQ     LOOP
+         LDCH    DATA,X
+         WD      OUTDEV
+         SUBR    T,X
+         COMPR   X,S
+         JGT     LOOP
+         JEQ     LOOP         
+         RSUB
+.
+ENDFIL   CLEAR   A
+LOOP2    TD      OUTDEV
+         JEQ     LOOP2
+         LDCH    #26
+         WD      OUTDEV
+         RSUB
+.
+OUTDEV   BYTE    X'05'
+         END
