@@ -3,10 +3,9 @@
          START   1000
          JSUB    READ
          JSUB    WRITE
-         JSUB    ENDFIL
          J       *
 .
-.sUBROUTINE FOR READING FROM DEV F3
+.SUBROUTINE FOR READING FROM DEV F3
 .
 READ     CLEAR   X
          CLEAR   A
