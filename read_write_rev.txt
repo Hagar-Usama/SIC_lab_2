@@ -45,7 +45,7 @@ LOOP     TD      OUTDEV
 ENDFIL   CLEAR   A
 LOOP2    TD      OUTDEV
          JEQ     LOOP2
-         LDCH    #26
+         LDCH    #4
          WD      OUTDEV
          RSUB
 .
